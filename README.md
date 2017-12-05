@@ -55,7 +55,7 @@ The N6 molecular tag is a novel approach to the unambiguous identification of un
 First, Bismark output files must be modified for input into NuDup using the following command:
 strip_bismark_sam.sh bismarkout_stripped.sam
 
-Note: Recent versions of Bismark automatically generate a BAM file instead of a SAM file. In order to use the stripping tool, the resulting BAM file must be converted to a SAM file, or else run Bismark with option "--sam"
+Note: Recent versions of Bismark automatically generate a BAM file instead of a SAM file. In order to use the stripping tool, the resulting BAM file must be converted to a SAM file, or else run Bismark with option `--sam`
 
 Next, run NuDup using the modified SAM files as input:
 For single end reads:
