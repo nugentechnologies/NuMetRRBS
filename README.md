@@ -139,11 +139,11 @@ Tables 12–15 show how the script trims all types of adaptor variation.
 The following data illustrates how read length affects mapping rates. An Ovation RRBS Methyl-Seq System library was prepared from IMR90 cell line DNA and sequenced on a HiSeq2500 in Rapid Run mode using 2X 100 nt paired end reads. The raw data was used in full, or trimmed as indicated, before processing first with [Trim Galore](www.bioinformatics.babraham.ac.uk/projects/trim_galore/) to remove adaptor sequence and low quality bases, and then with the NuGEN diversity trimming script. The resulting reads were then mapped to the hg19 human genome reference using [Bismark](www.bioinformatics.bbsrc.ac.uk/projects/bismark/).
 
 
-* Table 14 displays the percent of reads mapping uniquely and non-uniquely for single end reads of various lengths. *
+*Table 14 displays the percent of reads mapping uniquely and non-uniquely for single end reads of various lengths.*
 
 ```(insert tables 14 from M01394v3 here)```
 
-* Table 15 presents the same metrics for paired end reads. *
+*Table 15 presents the same metrics for paired end reads.*
 
 ```(insert tables 15 from M01394v3 here)```
 
