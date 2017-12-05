@@ -34,7 +34,7 @@ with a pattern:
 
 `python trimRRBSdiversityAdaptCustomers.py -1 '*R1.fq' -2 ‘*R2.fq’`
 
-The script will generate new file(s) with `_trimmed.fq` appended to the filename. The reads will have been trimmed at the 5’ end to remove the diversity sequence (0–3 bases), and all reads should begin with `YGG`, where Y is C or T. On the 3’ end, 5 bases are trimmed from every read (6 bases are trimmed for paired-end to prevent alignment issues).
+The script will generate new file(s) with `_trimmed.fq` appended to the filename. The reads will have been trimmed at the 5’ end to remove the diversity sequence (0–3 bases), and all reads should begin with `YGG`, where `Y` is `C` or `T`. On the 3’ end, 5 bases are trimmed from every read (6 bases are trimmed for paired-end to prevent alignment issues).
 The trimmed fastq file should be used for downstream analysis including Bismark.
 
 ## Alignment to Genome
@@ -144,7 +144,9 @@ The following data illustrates how read length affects mapping rates. An Ovation
 
 ```(insert tables 15 from M01394v3 here)```
 
-29 nt and 36 nt reads are shown to enable comparison to published RRBS data (29 nt single end reads — [Boyle, et al. (2012) (Genome Biol 13:R92)](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2012-13-10-r92). 36nt single end reads — [`Varley, et al. (2013) (Genome Res 23:555)](http://genome.cshlp.org/content/23/3/555.abstract). While some reports use modified reference genomes to reflect only expected MspI fragments for mapping, for this analysis reads were mapped to the entire, unmodified human reference genome.
+29 nt and 36 nt reads are shown to enable comparison to published RRBS data (29 nt single end reads — [Boyle, et al. (2012) (Genome Biol 13:R92)](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2012-13-10-r92). 36nt single end reads — [`Varley, et al. (2013) (Genome Res 23:555)](http://genome.cshlp.org/content/23/3/555.abstract).
+
+While some reports use modified reference genomes to reflect only expected MspI fragments for mapping, for this analysis reads were mapped to the entire, unmodified human reference genome.
 
 In addition to mappability, you may also want to consider how read length affects CpG loci coverage. Many MspI fragments contain internal CpG's, so longer reads will sequence more CpGs. However, many MspI fragments are smaller than 100 bp, and even smaller than 50 bp. For these fragments, long sequencing reads, or paired end reads, provide no additional CpG data.
 
