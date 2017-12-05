@@ -5,16 +5,18 @@ The Ovation RRBS Methyl-Seq System generates libraries compatible with Illumina 
 
 ## Adaptor and Quality Trimming
 
-To accurately identify the diversity sequence and `MspI` - `(C^CGG)` - site it is important to first trim any adaptor sequence that may be present on the 3’ end of your reads. [Trim Galore](www.bioinformatics.babraham.ac.uk/projects/trim_galore/) works well for this purpose, but there may be other equivalent options available. Trim Galore will also trim some or all of a read due to low quality. Run the program with default parameters and do not use the `--rrbs` option.
-Trim single end reads with the following command:
+To accurately identify the diversity sequence and `MspI` - `(C^CGG)` - site it is important to first trim any adaptor sequence that may be present on the 3’ end of your reads. [Trim Galore](www.bioinformatics.babraham.ac.uk/projects/trim_galore/) works well for this purpose. Trim Galore will also trim some or all of a read due to low quality. Run the program with default parameters and do not use the `--rrbs` option.
 
+Trim single end or paired end reads:
+
+### Single-end:
 `trim_galore -a AGATCGGAAGAGC R1.FQ`
 
-If you have paired-end reads, use this command instead:
-
+### Paired-end:
 `trim_galore --paired -a AGATCGGAAGAGC -a2 AAATCAAAAAAAC R1.FQ R2.FQ`
 
-## Diversity Trimming and Filtering
+## Diversity Trimming and Filtering with NuGEN's diversity trimming scripts.
+
 Following adaptor and quality trimming and prior to alignment, the additional sequence added by the diversity adaptors must be removed from the data. This trimming is performed by a custom python script provided by NuGEN. To obtain this script, contact NuGEN Technical Support at techserv@nugen.com. The script removes any reads that do not contain an MspI site signature `YGG` at the 5’ end. For paired end data an MspI site signature is required at the 5’ end of both sequences. The script accepts as input one or two fastq file strings, given either as complete filenames or as a pattern in quotes. When a pattern is given, the script will find all the filenames matching a specified pattern according to the rules used by the Unix shell `(*,?)`. You may access the help option of this script for more details `-h`.
 
 
@@ -38,7 +40,8 @@ The script will generate new file(s) with `_trimmed.fq` appended to the filename
 The trimmed fastq file should be used for downstream analysis including Bismark.
 
 ## Alignment to Genome
-After trimming, the data can be aligned to the genome of interest. [Bismark](http://www.bioinformatics.babraham.ac.uk/projects/bismark/) is a tool that aligns bisulfite converted sequencing reads to the genome and also performs methylation calls in the same step. The program supports single and paired-end reads and both ungapped and gapped alignments. Other equivalent options may be available.
+
+After trimming, the data can be aligned to the genome of interest. [Bismark](http://www.bioinformatics.babraham.ac.uk/projects/bismark/) is a tool that aligns bisulfite converted sequencing reads to the genome and also performs methylation calls in the same step. The program supports single and paired-end reads and both ungapped and gapped alignments.
 
 ### To align single end reads:
 
@@ -146,7 +149,7 @@ The following data illustrates how read length affects mapping rates. An Ovation
 
 29 nt and 36 nt reads are shown to enable comparison to published RRBS data (29 nt single end reads — [Boyle, et al. (2012) (Genome Biol 13:R92)](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2012-13-10-r92). 36nt single end reads — [Varley, et al. (2013) (Genome Res 23:555)](http://genome.cshlp.org/content/23/3/555.abstract).
 
-While some reports use modified reference genomes to reflect only expected MspI fragments for mapping, for this analysis reads were mapped to the entire, unmodified human reference genome.
+While some reports use modified reference genomes to reflect only expected `MspI` fragments for mapping, for this analysis reads were mapped to the entire, unmodified human reference genome.
 
-In addition to mappability, you may also want to consider how read length affects CpG loci coverage. Many MspI fragments contain internal CpG's, so longer reads will sequence more CpGs. However, many MspI fragments are smaller than 100 bp, and even smaller than 50 bp. For these fragments, long sequencing reads, or paired end reads, provide no additional CpG data.
+In addition to mappability, you may also want to consider how read length affects `CpG` loci coverage. Many `MspI` fragments contain internal `CpG`'s, so longer reads will sequence more `CpG`s. However, many `MspI` fragments are smaller than 100 bp, and even smaller than 50 bp. For these fragments, long sequencing reads, or paired end reads, provide no additional `CpG` data.
 
