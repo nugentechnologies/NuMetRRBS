@@ -1,11 +1,11 @@
 # NuMetRRBS
 ## Data Analysis of Ovation RRBS Methyl-Seq Libraries
 
-The Ovation RRBS Methyl-Seq System generates libraries compatible with Illumina sequencing platforms. After parsing the data by sample index, libraries must be trimmed prior to alignment as described below to remove adaptor sequence, low quality reads, and diversity bases. Ensure you have installed the most current version of Trim Galore, Bismark, Bowtie2, and Samtools prior to data analysis. Additional scripts used for data analysis are available through NuGEN Technical Support (techserv@nugen.com). Optional de-duplication can be performed after alignment to the reference genome following the instructions below.
+The Ovation RRBS Methyl-Seq System generates libraries compatible with Illumina sequencing platforms. After parsing the data by sample index, libraries must be trimmed prior to alignment as described below to remove adaptor sequence, low quality reads, and diversity bases. Ensure you have installed the most current version of `Trim Galore`, `Bismark`, `Bowtie2`, and Samtools prior to data analysis. Additional scripts used for data analysis are available through NuGEN Technical Support (techserv@nugen.com). Optional de-duplication can be performed after alignment to the reference genome following the instructions below.
 
 ## Adaptor and Quality Trimming
 
-To accurately identify the diversity sequence and MspI (C^CGG) site it is important to first trim any adaptor sequence that may be present on the 3’ end of your reads. [Trim Galore](www.bioinformatics.babraham.ac.uk/projects/trim_galore/) works well for this purpose, but there may be other equivalent options available. Trim Galore will also trim some or all of a read due to low quality. Run the program with default parameters and do not use the --RRBS option.
+To accurately identify the diversity sequence and MspI `(C^CGG)` site it is important to first trim any adaptor sequence that may be present on the 3’ end of your reads. [Trim Galore](www.bioinformatics.babraham.ac.uk/projects/trim_galore/) works well for this purpose, but there may be other equivalent options available. Trim Galore will also trim some or all of a read due to low quality. Run the program with default parameters and do not use the --RRBS option.
 Trim single end reads with the following command:
 
 `trim_galore -a AGATCGGAAGAGC R1.FQ`
@@ -126,12 +126,21 @@ The result of the NuGEN diversity trim of the reverse read:
 The adaptor can contain between 0 and 3 bases of diversity.
 
 Tables 12–15 show how the script trims all types of adaptor variation.
+
+```
 (insert tables 11,12,13 from M01394v3 here)
+```
 
 ## Effects of Read Length on Mapping Rate
 
-The following data illustrates how read length affects mapping rates. An Ovation RRBS Methyl-Seq System library was prepared from IMR90 cell line DNA and sequenced on a HiSeq2500 in Rapid Run mode using 2X 100 nt paired end reads. The raw data was used in full, or trimmed as indicated, before processing first with [Trim Galore](www.bioinformatics.babraham.ac.uk/projects/trim_galore/) to remove adaptor sequence and low quality bases, and then with the NuGEN diversity trimming script. The resulting reads were then mapped to the hg19 human genome reference using [Bismark](www.bioinformatics.bbsrc.ac.uk/projects/bismark/). Table 14 displays the percent of reads mapping uniquely and non-uniquely for single end reads of various lengths. Table 15 presents the same metrics for paired end reads. 29 nt and 36 nt reads are shown to enable comparison to published RRBS data (29 nt single end reads — Boyle, et al. (2012) Genome Biol 13:R92. 36nt single end reads — Varley, et al. (2013) Genome Res 23:555). While some reports use modified reference genomes to reflect only expected MspI fragments for mapping, for this analysis reads were mapped to the entire, unmodified human reference genome.
+The following data illustrates how read length affects mapping rates. An Ovation RRBS Methyl-Seq System library was prepared from IMR90 cell line DNA and sequenced on a HiSeq2500 in Rapid Run mode using 2X 100 nt paired end reads. The raw data was used in full, or trimmed as indicated, before processing first with [Trim Galore](www.bioinformatics.babraham.ac.uk/projects/trim_galore/) to remove adaptor sequence and low quality bases, and then with the NuGEN diversity trimming script. The resulting reads were then mapped to the hg19 human genome reference using [Bismark](www.bioinformatics.bbsrc.ac.uk/projects/bismark/).
 
-(insert tables 14 from M01394v3 here)
+Table 14 displays the percent of reads mapping uniquely and non-uniquely for single end reads of various lengths.
+
+Table 15 presents the same metrics for paired end reads. 29 nt and 36 nt reads are shown to enable comparison to published RRBS data (29 nt single end reads — Boyle, et al. (2012) Genome Biol 13:R92. 36nt single end reads — Varley, et al. (2013) Genome Res 23:555). While some reports use modified reference genomes to reflect only expected MspI fragments for mapping, for this analysis reads were mapped to the entire, unmodified human reference genome.
+
+```(insert tables 14 from M01394v3 here)```
+
 In addition to mappability, you may also want to consider how read length affects CpG loci coverage. Many MspI fragments contain internal CpG's, so longer reads will sequence more CpGs. However, many MspI fragments are smaller than 100 bp, and even smaller than 50 bp. For these fragments, long sequencing reads, or paired end reads, provide no additional CpG data.
-(insert tables 15 from M01394v3 here)
+
+```(insert tables 15 from M01394v3 here)```
