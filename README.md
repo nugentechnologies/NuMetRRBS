@@ -1,73 +1,131 @@
-# NuMetRRBS
-## Data Analysis of Ovation RRBS Methyl-Seq Libraries
+# Analysis Guide for NuGEN Ovation RRBS Methy-Seq
 
-The Ovation RRBS Methyl-Seq System generates libraries compatible with Illumina sequencing platforms. After parsing the data by sample index, libraries must be trimmed prior to alignment as described below to remove adaptor sequence, low quality reads, and diversity bases. Ensure you have installed the most current version of `Trim Galore`, `Bismark`, `Bowtie2`, and Samtools prior to data analysis. Additional scripts used for data analysis are available through NuGEN Technical Support (techserv@nugen.com). Optional de-duplication can be performed after alignment to the reference genome following the instructions below.
+The Ovation RRBS Methyl-Seq System generates libraries compatible with Illumina sequencing platforms.
+ After parsing the data by sample index, libraries must be trimmed prior to alignment as described below to remove
+ adaptor sequence, low quality reads, and diversity bases. Ensure you have installed the most current version
+ of `Trim Galore`, `Bismark`, `Bowtie2`, and Samtools prior to data analysis. Additional scripts used for data
+ analysis are available through NuGEN Technical Support (techserv@nugen.com). Optional de-duplication can be performed
+ after alignment to the reference genome following the instructions below.
 
 ## Adaptor and Quality Trimming
 
-To accurately identify the diversity sequence and `MspI` - `(C^CGG)` - site it is important to first trim any adaptor sequence that may be present on the 3’ end of your reads. [Trim Galore](www.bioinformatics.babraham.ac.uk/projects/trim_galore/) works well for this purpose. Trim Galore will also trim some or all of a read due to low quality. Run the program with default parameters and do not use the `--rrbs` option.
-
-Trim single end or paired end reads:
+To accurately identify the diversity sequence and `MspI` - `(C^CGG)` - site it is important to first trim any adaptor
+ sequence that may be present on the 3’ end of your reads. [Trim Galore](www.bioinformatics.babraham.ac.uk/projects/trim_galore/)
+ works well for this purpose. Trim Galore will also trim some or all of a read due to low quality.
+ 
+ Run the program with default parameters and do not use the `--rrbs` option.
 
 ### Single-end:
-`trim_galore -a AGATCGGAAGAGC R1.FQ`
+
+```
+trim_galore -a AGATCGGAAGAGC R1.FQ
+```
 
 ### Paired-end:
-`trim_galore --paired -a AGATCGGAAGAGC -a2 AAATCAAAAAAAC R1.FQ R2.FQ`
+
+```
+trim_galore --paired -a AGATCGGAAGAGC -a2 AAATCAAAAAAAC R1.FQ R2.FQ
+```
 
 ## Diversity Trimming and Filtering with NuGEN's diversity trimming scripts.
 
-Following adaptor and quality trimming and prior to alignment, the additional sequence added by the diversity adaptors must be removed from the data. This trimming is performed by a custom python script provided by NuGEN. To obtain this script, contact NuGEN Technical Support at techserv@nugen.com. The script removes any reads that do not contain an MspI site signature `YGG` at the 5’ end. For paired end data an MspI site signature is required at the 5’ end of both sequences. The script accepts as input one or two fastq file strings, given either as complete filenames or as a pattern in quotes. When a pattern is given, the script will find all the filenames matching a specified pattern according to the rules used by the Unix shell `(*,?)`. You may access the help option of this script for more details `-h`.
+Following adaptor and quality trimming and prior to alignment, the additional sequence added by the diversity adaptors
+ must be removed from the data. This trimming is performed by a custom python script provided by NuGEN.
+ To obtain this script, contact NuGEN Technical Support at techserv@nugen.com.
+ The script removes any reads that do not contain an MspI site signature `YGG` at the 5’ end.
+ For paired end data an MspI site signature is required at the 5’ end of both sequences.
+ The script accepts as input one or two fastq file strings, given either as complete filenames or as a pattern in
+ quotes. When a pattern is given, the script will find all the filenames matching a specified pattern according to
+ the rules used by the Unix shell `(*,?)`. You may access the help option of this script for more details `-h`.
 
 
 Example usage for single end reads after adaptor and quality trimming with a complete filename:
 
-`python trimRRBSdiversityAdaptCustomers.py -1 sample_R1.fq`
+```
+python trimRRBSdiversityAdaptCustomers.py -1 sample_R1.fq
+```
 
 with a pattern:
 
-`python trimRRBSdiversityAdaptCustomers.py -1 '*R1.fq'`
+```
+python trimRRBSdiversityAdaptCustomers.py -1 '*R1.fq'
+```
 
 Example usage for paired-end reads after adaptor and quality trimming with a complete filename:
 
-`python trimRRBSdiversityAdaptCustomers.py -1 sample_R1.fq -2 sample_R2.fq`
+```
+python trimRRBSdiversityAdaptCustomers.py -1 sample_R1.fq -2 sample_R2.fq
+```
 
 with a pattern:
 
-`python trimRRBSdiversityAdaptCustomers.py -1 '*R1.fq' -2 ‘*R2.fq’`
+```
+python trimRRBSdiversityAdaptCustomers.py -1 '*R1.fq' -2 ‘*R2.fq’
+```
 
-The script will generate new file(s) with `_trimmed.fq` appended to the filename. The reads will have been trimmed at the 5’ end to remove the diversity sequence (0–3 bases), and all reads should begin with `YGG`, where `Y` is `C` or `T`. On the 3’ end, 5 bases are trimmed from every read (6 bases are trimmed for paired-end to prevent alignment issues).
-The trimmed fastq file should be used for downstream analysis including Bismark.
+The script will generate new file(s) with `_trimmed.fq` appended to the filename.
+ The reads will have been trimmed at the 5’ end to remove the diversity sequence (0–3 bases), and all reads should
+ begin with `YGG`, where `Y` is `C` or `T`. On the 3’ end, 5 bases are trimmed from every read
+ (6 bases are trimmed for paired-end to prevent alignment issues).
+
+The trimmed fastq file should be used for downstream analysis including `bismark`.
+
 
 ## Alignment to Genome
 
-After trimming, the data can be aligned to the genome of interest. [Bismark](http://www.bioinformatics.babraham.ac.uk/projects/bismark/) is a tool that aligns bisulfite converted sequencing reads to the genome and also performs methylation calls in the same step. The program supports single and paired-end reads and both ungapped and gapped alignments.
+After trimming, the data can be aligned to the genome of interest. 
+ [Bismark](http://www.bioinformatics.babraham.ac.uk/projects/bismark/) is a tool that aligns bisulfite converted
+ sequencing reads to the genome and also performs methylation calls in the same step.
+ The program supports single and paired-end reads and both ungapped and gapped alignments.
 
 ### To align single end reads:
 
-`bismark --bowtie2 /location/bismark/genome/ R1_trimmed.FQ`
+```
+bismark --bowtie2 /location/bismark/genome/ R1_trimmed.FQ
+```
 
 ### For paired-end reads:
 
-`bismark --bowtie2 /location/bismark/genome/ -1 R1_trimmed.FQ -2 R2_trimmed.FQ`
+```
+bismark --bowtie2 /location/bismark/genome/ -1 R1_trimmed.FQ -2 R2_trimmed.FQ
+```
 
-Note: Recent versions of Bismark automatically generate a BAM file instead of a SAM file. In order to perform the optional duplicate determination step, the resulting BAM file must be converted to a SAM file, or else run Bismark with option `--sam`. Continue with downstream data analysis or to unique molecule identification as described in the following section.
+Note: Recent versions of Bismark automatically generate a BAM file instead of a SAM file.
+ In order to perform the optional duplicate determination step, the resulting BAM file must be converted to a SAM file,
+ or else run Bismark with option `--sam`. Continue with downstream data analysis or to unique molecule identification
+ as described in the following section.
 
 ## Duplicate Determination with NuDup (Optional):
-The N6 molecular tag is a novel approach to the unambiguous identification of unique molecules. Traditionally, PCR duplicates are identified in libraries made from randomly fragmented inserts by mapping inserts to the genome and discarding any paired end reads that share the same genomic coordinates. This approach doesn’t work for restriction digested samples, such as RRBS, because all fragments mapping to a genomic location will share the same ends. The Duplicate Marking tool utilizes information provided by the unique N6 sequence to discriminate between true PCR duplicates and independent adaptor ligation events to fragments with the same start site resulting in the recovery of more usable data. 
+The N6 molecular tag is a novel approach to the unambiguous identification of unique molecules.
+ Traditionally, PCR duplicates are identified in libraries made from randomly fragmented inserts by mapping inserts to
+ the genome and discarding any paired end reads that share the same genomic coordinates. This approach doesn’t work for
+ restriction digested samples, such as RRBS, because all fragments mapping to a genomic location will share the same
+ ends. The Duplicate Marking tool utilizes information provided by the unique N6 sequence to discriminate between true
+ PCR duplicates and independent adaptor ligation events to fragments with the same start site resulting in the
+ recovery of more usable data. 
 First, Bismark output files must be modified for input into NuDup using the following command:
-strip_bismark_sam.sh bismarkout_stripped.sam
 
-Note: Recent versions of Bismark automatically generate a BAM file instead of a SAM file. In order to use the stripping tool, the resulting BAM file must be converted to a SAM file, or else run Bismark with option `--sam`
+```
+strip_bismark_sam.sh bismarkout_stripped.sam
+```
+
+Note: Recent versions of Bismark automatically generate a BAM file instead of a SAM file.
+ In order to use the stripping tool, the resulting BAM file must be converted to a SAM file,
+ or else run Bismark with option `--sam`
 
 Next, run NuDup using the modified SAM files as input:
+
 For single end reads:
 
-`python nudup.py –f index.fq –o outputname bismarkout_stripped.sam`
+```
+python nudup.py –f index.fq –o outputname bismarkout_stripped.sam
+```
 
 For paired-end reads:
 
-`python nudup.py –2 –f index.fq –o outputname bismarkout_stripped.sam`
+```
+python nudup.py –2 –f index.fq –o outputname bismarkout_stripped.sam
+```
 
 Continue with downstream data analysis.
 
@@ -79,6 +137,8 @@ Note: These commands assume that a 12-base index read was generated. If longer i
 
 Bases in blue denote sequence derived from the adaptor. In this example, the fragment was derived from the genomic sequence, starting and ending with MspI sites:
 
+<a><img src="./RRBS Methyl-Seq_colored text-01.svg"/></a>
+
 ```
 5’ CCGGAGTT…AAGGGCCGG 3’
 3’ GGCCTCAA…TTCCCGGCC 5’
@@ -86,12 +146,17 @@ Bases in blue denote sequence derived from the adaptor. In this example, the fra
 
 After MspI digestion:
 
+<a><img src="./RRBS Methyl-Seq_colored text-01.svg"/></a>
+
+
 ```
 5’ CGGAGTT…AAGGGC 3’
 3’ CTCAA…TTCCCGGC 5’
 ```
 
 After ligation to adaptors, both with three bases of diversity:
+<a><img src="./RRBS Methyl-Seq_colored text-01.svg"/></a>
+
 ```
 5’ RDDCGGAGTT…AAGGGCCGHHY 3’
 3’ YHHGCCTCAA…TTCCCGGCDDR 5’
@@ -99,6 +164,7 @@ After ligation to adaptors, both with three bases of diversity:
 
 After bisulfite conversion and PCR amplification of the top strand:
 
+<a><img src="./RRBS Methyl-Seq_colored text-01.svg"/></a>
 ```
 5’ RDDYGGAGTT…AAGGGTCGHHY 3’
 3’ YHHRCCTCAA…TTCCCAGCDDR 5’
