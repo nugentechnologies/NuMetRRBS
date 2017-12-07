@@ -137,7 +137,7 @@ Note: These commands assume that a 12-base index read was generated. If longer i
 
 Bases in blue denote sequence derived from the adaptor. In this example, the fragment was derived from the genomic sequence, starting and ending with MspI sites:
 
-<a><img src="./RRBS Methyl-Seq_colored text-01.svg"/></a>
+<a><img src="https://raw.githubusercontent.com/nugentechnologies/NuMetRRBS/master/RRBS%20Methyl-Seq_colored%20text-01.svg?token=AA3e9wkKPgM-LdIDtX4vYCAFFokIgKuxks5aMw7ZwA%3D%3D"/></a>
 
 ```
 5’ CCGGAGTT…AAGGGCCGG 3’
