@@ -1,4 +1,4 @@
-# Analysis Guide for NuGEN Ovation RRBS Methy-Seq
+# Analysis Guide for NuGEN Ovation RRBS Methyl-Seq
 
 The Ovation RRBS Methyl-Seq System generates libraries compatible with Illumina sequencing platforms.
  After parsing the data by sample index, libraries must be trimmed prior to alignment as described below to remove
