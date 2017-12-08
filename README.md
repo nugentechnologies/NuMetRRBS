@@ -135,19 +135,14 @@ Note: These commands assume that a 12-base index read was generated. If longer i
 
 ### Examples of Trimming the 5’ Ends of Forward Reads
 
-Bases in blue denote sequence derived from the adaptor. In this example, the fragment was derived from the genomic sequence, starting and ending with MspI sites:
-
-![Figure 1](./RRBS%20Methyl-Seq_colored%20text-01.png)
-
+In this example, the fragment was derived from the genomic sequence, starting and ending with MspI sites:
 
 ```
-5’ CCGGAGTT…AAGGGCCGG 3’
-3’ GGCCTCAA…TTCCCGGCC 5’
+5’ CCGGAGTT … AAGGGCCGG 3’
+3’ GGCCTCAA … TTCCCGGCC 5’
 ```
 
 After MspI digestion:
-
-<a><img src="./RRBS Methyl-Seq_colored text-01.svg"/></a>
 
 
 ```
@@ -155,39 +150,31 @@ After MspI digestion:
 3’ CTCAA…TTCCCGGC 5’
 ```
 
-After ligation to adaptors, both with three bases of diversity:
-<a><img src="./RRBS Methyl-Seq_colored text-01.svg"/></a>
+After ligation to adaptors, both with three bases of diversity. Bases in blue denote sequence derived from the adaptor:
 
-```
-5’ RDDCGGAGTT…AAGGGCCGHHY 3’
-3’ YHHGCCTCAA…TTCCCGGCDDR 5’
-```
+![Figure 1](./RRBS%20Methyl-Seq_colored%20text-01.png)
 
 After bisulfite conversion and PCR amplification of the top strand:
 
-<a><img src="./RRBS Methyl-Seq_colored text-01.svg"/></a>
-```
-5’ RDDYGGAGTT…AAGGGTCGHHY 3’
-3’ YHHRCCTCAA…TTCCCAGCDDR 5’
-```
+![Figure 2](./RRBS%20Methyl-Seq_colored%20text-02.png)
 
 Assuming the insert is smaller than the read length, the forward read after Trim Galore
 is used to trim the adaptor from the 3’ end will be:
 
-```
-5’ RDDYGGAGTT…AAGGGTCGHHY 3’
-```
+![Figure 3](./RRBS%20Methyl-Seq_colored%20text-03.png)
 
 The result of the NuGEN diversity trim of the forward read (if it's a single-end read)
 will be:
+
 ```
 5’ YGGAGTT…AAGGGT 3’
 ```
 
 The reverse read after Trim Galore is used will be:
-```
-5’ RDDCGACCCTT…AACTCCRHHY 3’
-```
+
+![Figure 4](./RRBS%20Methyl-Seq_colored%20text-04.png)
+
+
 The result of the NuGEN diversity trim of the reverse read:
 ```
 5’ ACCCTT…AACT 3’
@@ -203,7 +190,13 @@ Tables 12–15 show how the script trims all types of adaptor variation.
 
 ## Effects of Read Length on Mapping Rate
 
-The following data illustrates how read length affects mapping rates. An Ovation RRBS Methyl-Seq System library was prepared from IMR90 cell line DNA and sequenced on a HiSeq2500 in Rapid Run mode using 2X 100 nt paired end reads. The raw data was used in full, or trimmed as indicated, before processing first with [Trim Galore](www.bioinformatics.babraham.ac.uk/projects/trim_galore/) to remove adaptor sequence and low quality bases, and then with the NuGEN diversity trimming script. The resulting reads were then mapped to the hg19 human genome reference using [Bismark](www.bioinformatics.bbsrc.ac.uk/projects/bismark/).
+The following data illustrates how read length affects mapping rates.
+ An Ovation RRBS Methyl-Seq System library was prepared from IMR90 cell line DNA and sequenced on a HiSeq2500 in
+ Rapid Run mode using 2X 100 nt paired end reads. The raw data was used in full, or trimmed as indicated, before
+ processing first with [Trim Galore](www.bioinformatics.babraham.ac.uk/projects/trim_galore/) to remove adaptor
+ sequence and low quality bases, and then with the NuGEN diversity trimming script.
+ The resulting reads were then mapped to the hg19 human genome reference using
+ [Bismark](www.bioinformatics.bbsrc.ac.uk/projects/bismark/).
 
 
 *Table 14 displays the percent of reads mapping uniquely and non-uniquely for single end reads of various lengths.*
