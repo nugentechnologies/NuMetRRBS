@@ -182,11 +182,24 @@ The result of the NuGEN diversity trim of the reverse read:
 
 The adaptor can contain between 0 and 3 bases of diversity.
 
-Tables 12–15 show how the script trims all types of adaptor variation.
+Tables 1-4 show how the script trims all types of adaptor variation.
 
-```
-(insert tables 11,12,13 from M01394v3 here)
-```
+
+*Table 1:  Trimming of the 5’ ends of forward reads*
+
+![Table 1](./Table1.png)
+
+*Table 2: Trimming of the 3’ ends of forward reads*
+
+![Table 2](./Table2.png)
+
+*Table 3: Trimming of the 5’ ends of reverse reads*
+
+![Table 3](./Table3.png)
+
+*Table 4: Trimming of the 3’ ends of reverse reads*
+
+![Table 4](./Table4.png)
 
 ## Effects of Read Length on Mapping Rate
 
@@ -201,11 +214,20 @@ The following data illustrates how read length affects mapping rates.
 
 *Table 14 displays the percent of reads mapping uniquely and non-uniquely for single end reads of various lengths.*
 
-```(insert tables 14 from M01394v3 here)```
+| SINGLE END LENGTH              | 29nt    | 36nt   | 50nt   | 75nt   | 100nt  |
+|--------------------------------|---------|--------|--------|--------|--------|
+| Sequences mapping uniquely     | 18.70%  | 51.20% | 57.80% | 64.80% | 67.30% |
+| Sequences mapping non-uniquely | 81.30%  | 47.40% | 37.80% | 28.00% | 23.50% |
+| Total                          | 100.00% | 98.60% | 95.60% | 92.80% | 90.80% |
+
 
 *Table 15 presents the same metrics for paired end reads.*
 
-```(insert tables 15 from M01394v3 here)```
+| SINGLE END READ LENGTH         | 2x29nt | 2x36nt | 2x50nt | 2x75nt | 2x100nt |
+|--------------------------------|--------|--------|--------|--------|---------|
+| Sequence mapping uniquely      | 57.50% | 64.60% | 66.70% | 68.00% | 67.60%  |
+| Sequences mapping non-uniquely | 29.30% | 25.50% | 20.20% | 17.80% | 17.40%  |
+| Total                          | 86.80% | 90.10% | 86.90% | 85.80% | 85.00%  |
 
 29 nt and 36 nt reads are shown to enable comparison to published RRBS data (29 nt single end reads — [Boyle, et al. (2012) (Genome Biol 13:R92)](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2012-13-10-r92). 36nt single end reads — [Varley, et al. (2013) (Genome Res 23:555)](http://genome.cshlp.org/content/23/3/555.abstract).
 
