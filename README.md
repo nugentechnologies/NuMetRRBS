@@ -30,8 +30,7 @@ trim_galore --paired -a AGATCGGAAGAGC -a2 AAATCAAAAAAAC R1.FQ R2.FQ
 ## Diversity Trimming and Filtering with NuGEN's diversity trimming scripts.
 
 Following adaptor and quality trimming and prior to alignment, the additional sequence added by the diversity adaptors
- must be removed from the data. This trimming is performed by a custom python script provided by NuGEN.
- To obtain this script, contact NuGEN Technical Support at techserv@nugen.com.
+ must be removed from the data. This trimming is performed by a custom python script `trimRRBSdiversityAdaptCustomers.py` provided by NuGEN in this repository.
  The script removes any reads that do not contain an MspI site signature `YGG` at the 5’ end.
  For paired end data an MspI site signature is required at the 5’ end of both sequences.
  The script accepts as input one or two fastq file strings, given either as complete filenames or as a pattern in
