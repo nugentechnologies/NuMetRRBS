@@ -102,10 +102,13 @@ The N6 molecular tag is a novel approach to the unambiguous identification of un
  ends. The Duplicate Marking tool utilizes information provided by the unique N6 sequence to discriminate between true
  PCR duplicates and independent adaptor ligation events to fragments with the same start site resulting in the
  recovery of more usable data. 
-First, Bismark output files must be modified for input into NuDup using the following command:
+
+Bismark modifies read names in its output and NuDup requires that the read names in the alignment and index files match exactly.
+ The `strip_bismark_sam.sh` script is provided to strip the read name changes that happen in bismark.
+ Bismark output files must be modified for input into NuDup using the following command:
 
 ```
-strip_bismark_sam.sh bismarkout_stripped.sam
+strip_bismark_sam.sh bismarkout.sam
 ```
 
 Note: Recent versions of Bismark automatically generate a BAM file instead of a SAM file.
@@ -117,7 +120,7 @@ Next, run NuDup using the modified SAM files as input:
 For single end reads:
 
 ```
-python nudup.py –f index.fq –o outputname bismarkout_stripped.sam
+python nudup.py –f index.fq –o outputname bismarkout.sam_stripped.sam
 ```
 
 For paired-end reads:
