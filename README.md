@@ -3,7 +3,7 @@
 The Ovation RRBS Methyl-Seq System generates libraries compatible with Illumina sequencing platforms.
  After parsing the data by sample index, libraries must be trimmed prior to alignment as described below to remove
  adaptor sequence, low quality reads, and diversity bases. Ensure you have installed the most current version
- of `Trim Galore`, `Bismark`, `Bowtie2`, and `Samtools` prior to data analysis. Additional scripts used for data
+ of [Trim Galore](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/), [Bismark](https://www.bioinformatics.babraham.ac.uk/projects/bismark/Bismark_User_Guide.pdf), [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml), and [Samtools](http://samtools.sourceforge.net/) prior to data analysis. Additional scripts used for data
  analysis are available through NuGEN Technical Support (techserv@nugen.com). Optional de-duplication can be performed
  after alignment to the reference genome following the instructions below.
 
