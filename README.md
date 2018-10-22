@@ -95,6 +95,9 @@ Note: Recent versions of Bismark automatically generate a BAM file instead of a 
  as described in the following section.
 
 ## Duplicate Determination with NuDup (Optional):
+
+Follow instructions to setup NuDup here: https://github.com/nugentechnologies/nudup
+
 The N6 molecular tag is a novel approach to the unambiguous identification of unique molecules.
  Traditionally, PCR duplicates are identified in libraries made from randomly fragmented inserts by mapping inserts to
  the genome and discarding any paired end reads that share the same genomic coordinates. This approach doesn’t work for
@@ -103,7 +106,7 @@ The N6 molecular tag is a novel approach to the unambiguous identification of un
  PCR duplicates and independent adaptor ligation events to fragments with the same start site resulting in the
  recovery of more usable data. 
 
-Bismark modifies read names in its output and NuDup requires that the read names in the alignment and index files match exactly.
+Bismark modifies read names in its output and [NuDup](https://github.com/nugentechnologies/nudup) requires that the read names in the alignment and index files match exactly.
  The `strip_bismark_sam.sh` script is provided to strip the read name changes that happen in bismark.
  Bismark output files must be modified for input into NuDup using the following command:
 
