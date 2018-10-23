@@ -96,7 +96,11 @@ Note: Recent versions of Bismark automatically generate a BAM file instead of a 
 
 ## Duplicate Determination with NuDup (Optional):
 
+### Installation instructions:
+
 Follow instructions to setup NuDup here: https://github.com/nugentechnologies/nudup
+
+### Usage instructions:
 
 The N6 molecular tag is a novel approach to the unambiguous identification of unique molecules.
  Traditionally, PCR duplicates are identified in libraries made from randomly fragmented inserts by mapping inserts to
