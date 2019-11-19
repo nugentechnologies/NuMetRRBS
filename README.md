@@ -1,10 +1,10 @@
-# Analysis Guide for NuGEN Ovation RRBS Methyl-Seq
+# Analysis Guide for Tecan RRBS Methyl-Seq
 
 The Ovation RRBS Methyl-Seq System generates libraries compatible with Illumina sequencing platforms.
  After parsing the data by sample index, libraries must be trimmed prior to alignment as described below to remove
  adaptor sequence, low quality reads, and diversity bases. Ensure you have installed the most current version
  of [Trim Galore](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/), [Bismark](https://www.bioinformatics.babraham.ac.uk/projects/bismark/Bismark_User_Guide.pdf), [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml), and [Samtools](http://samtools.sourceforge.net/) prior to data analysis. Additional scripts used for data
- analysis are available through NuGEN Technical Support (techserv@nugen.com). Optional de-duplication can be performed
+ analysis are available through Tecan NGS Technical Support techserv-gn@tecan.com. Optional de-duplication can be performed
  after alignment to the reference genome following the instructions below.
 
 ## Adaptor and Quality Trimming
@@ -27,10 +27,10 @@ trim_galore -a AGATCGGAAGAGC R1.FQ
 trim_galore --paired -a AGATCGGAAGAGC -a2 AAATCAAAAAAAC R1.FQ R2.FQ
 ```
 
-## Diversity Trimming and Filtering with NuGEN's diversity trimming scripts.
+## Diversity Trimming and Filtering with diversity trimming scripts.
 
 Following adaptor and quality trimming and prior to alignment, the additional sequence added by the diversity adaptors
- must be removed from the data. This trimming is performed by a custom python script [`trimRRBSdiversityAdaptCustomers.py`](./trimRRBSdiversityAdaptCustomers.py) provided by NuGEN in this repository.
+ must be removed from the data. This trimming is performed by a custom python script [`trimRRBSdiversityAdaptCustomers.py`](./trimRRBSdiversityAdaptCustomers.py) provided by Tecan in this repository.
  The script removes any reads that do not contain an MspI site signature `YGG` at the 5’ end.
  For paired end data an MspI site signature is required at the 5’ end of both sequences.
  The script accepts as input one or two fastq file strings, given either as complete filenames or as a pattern in
@@ -131,7 +131,7 @@ python nudup.py –2 –f index.fq –o outputname bismarkout_stripped.sam
 
 Continue with downstream data analysis.
 
-Note: These commands assume that a 12-base index read was generated. If longer index reads were generated, contact NuGEN Technical Support.
+Note: These commands assume that a 12-base index read was generated. If longer index reads were generated, contact Tecan NGS Technical Support techserv-gn@tecan.com.
 
 ## Diversity Trimming Examples
 
@@ -165,7 +165,7 @@ is used to trim the adaptor from the 3’ end will be:
 
 ![Figure 3](./RRBS%20Methyl-Seq_colored%20text-03.png)
 
-The result of the NuGEN diversity trim of the forward read (if it's a single-end read)
+The result of the diversity trim of the forward read (if it's a single-end read)
 will be:
 
 ```
@@ -177,7 +177,7 @@ The reverse read after Trim Galore is used will be:
 ![Figure 4](./RRBS%20Methyl-Seq_colored%20text-04.png)
 
 
-The result of the NuGEN diversity trim of the reverse read:
+The result of the diversity trim of the reverse read:
 ```
 5’ ACCCTT…AACT 3’
 ```
@@ -209,7 +209,7 @@ The following data illustrates how read length affects mapping rates.
  An Ovation RRBS Methyl-Seq System library was prepared from IMR90 cell line DNA and sequenced on a HiSeq2500 in
  Rapid Run mode using 2X 100 nt paired end reads. The raw data was used in full, or trimmed as indicated, before
  processing first with [Trim Galore](www.bioinformatics.babraham.ac.uk/projects/trim_galore/) to remove adaptor
- sequence and low quality bases, and then with the NuGEN diversity trimming script.
+ sequence and low quality bases, and then with the diversity trimming script.
  The resulting reads were then mapped to the hg19 human genome reference using
  [Bismark](www.bioinformatics.bbsrc.ac.uk/projects/bismark/).
 
