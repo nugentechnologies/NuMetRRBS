@@ -1,9 +1,9 @@
+from __future__ import print_function
 from getopt import getopt
 import sys
 import os
 from glob import glob
 import gzip
-from types import StringTypes
 
 
 HELP_STRING = """Given a set of paired end read files, performs the trimming for RRBS with 
@@ -77,11 +77,12 @@ def FastqIterator(fh):
             else:
                 preLines.append(l)
 
-    if type(fh) in StringTypes:
-        if (fh.endswith(".gz")):
-            fh = gzip.open(fh,'r')
-        else:
-            fh = file(fh)
+        if issubclass(type(fh), str):
+            fh = open(fh)
+            if (fh.endswith(".gz")):
+                fh = gzip.open(fh,'r')
+            else:
+                fh = open(fh)
     
     preLines,nextTitleLine =readTotitle(fh,'@')
 
@@ -90,9 +91,9 @@ def FastqIterator(fh):
         preLines,nextTitleLine=readTotitle(fh,'+')
         qualTitle = nextTitleLine[1:].rstrip()
         if len(qualTitle.strip()) > 0 and seqTitle != qualTitle:
-            print seqTitle
-            print preLines
-            print qualTitle
+            print(seqTitle)
+            print(preLines)
+            print(qualTitle)
             raise Exception("Error in parsing: @title sequence entry must be immediately followed by corresponding +title quality entry.")
         seqLines = preLines
         qualLines = []
@@ -175,15 +176,15 @@ def trimOneRecord(fwdTitle, fwdSeq, fwdQual, revTitle, revSeq, revQual, outFwd, 
         stats["nrD0"] += 1
     elif yggPos == 1:
         if fwdSeq[0] not in BASE_POSITIONS:
-            print "Hmm... odd letter %s in %s at fwdSeq[0] when yggPos == 1" % (fwdSeq[1], fwdTitle)
+            print("Hmm... odd letter %s in %s at fwdSeq[0] when yggPos == 1" % (fwdSeq[1], fwdTitle))
         for i in range(NUM_BASES):
             if fwdSeq[0] == BASE_POSITIONS[i]:
                 stats["bdD1base1"][i] += 1
     elif yggPos == 2:
         if fwdSeq[0] not in BASE_POSITIONS:
-            print "Hmm... odd letter %s in %s at fwdSeq[0] when yggPos == 2" % (fwdSeq[1], fwdTitle)
+            print("Hmm... odd letter %s in %s at fwdSeq[0] when yggPos == 2" % (fwdSeq[1], fwdTitle))
         if fwdSeq[1] not in BASE_POSITIONS:
-            print "Hmm... odd letter %s in %s at fwdSeq[1] when yggPos == 2" % (fwdSeq[1], fwdTitle)
+            print("Hmm... odd letter %s in %s at fwdSeq[1] when yggPos == 2" % (fwdSeq[1], fwdTitle))
         for i in range(NUM_BASES):
             if fwdSeq[0] == BASE_POSITIONS[i]:
                 stats["bdD2base1"][i] += 1
@@ -192,11 +193,11 @@ def trimOneRecord(fwdTitle, fwdSeq, fwdQual, revTitle, revSeq, revQual, outFwd, 
                 stats["bdD2base2"][i] += 1
     elif yggPos == 3:
         if fwdSeq[0] not in BASE_POSITIONS:
-            print "Hmm... odd letter %s in %s at fwdSeq[0] when yggPos == 3" % (fwdSeq[0], fwdTitle)
+            print("Hmm... odd letter %s in %s at fwdSeq[0] when yggPos == 3" % (fwdSeq[0], fwdTitle))
         if fwdSeq[1] not in BASE_POSITIONS:
-            print "Hmm... odd letter %s in %s at fwdSeq[1] when yggPos == 3" % (fwdSeq[1], fwdTitle)
+            print("Hmm... odd letter %s in %s at fwdSeq[1] when yggPos == 3" % (fwdSeq[1], fwdTitle))
         if fwdSeq[2] not in BASE_POSITIONS:
-            print "Hmm... odd letter %s in %s at fwdSeq[2] when yggPos == 3" % (fwdSeq[2], fwdTitle)
+            print("Hmm... odd letter %s in %s at fwdSeq[2] when yggPos == 3" % (fwdSeq[2], fwdTitle))
         for i in range(NUM_BASES):
             if fwdSeq[0] == BASE_POSITIONS[i]:
                 stats["bdD3base1"][i] += 1
@@ -295,15 +296,15 @@ msp1 = True
 try:
     optlist, args = getopt(sys.argv[1:], "h1:2:o:y:tb")
 except:
-    print "Error retrieving options"
-    print ""
-    print HELP_STRING
+    print("Error retrieving options")
+    print("")
+    print(HELP_STRING)
     sys.exit(1)
 
 for (opt, opt_arg) in optlist:
     if opt == "-h":
-        print ""
-        print HELP_STRING
+        print("")
+        print(HELP_STRING)
         sys.exit(1)
     elif opt == "-1":
         fwdFilenames = opt_arg
@@ -320,23 +321,23 @@ for (opt, opt_arg) in optlist:
 
 # check required parameters exist
 if taq1 == True and both_taq1_msp1 == True:
-    print "\nYou can only choose one restriction enzyme option.  If you want to select both enzymes, please enter the -b option only."
-    print
-    print HELP_STRING
+    print("\nYou can only choose one restriction enzyme option.  If you want to select both enzymes, please enter the -b option only.")
+    print()
+    print(HELP_STRING)
     sys.exit(1)
 
 
 if fwdFilenames == None:
-    print "\nYou must provide both a fwd fastq filename or both fwd & rev filenames."
-    print 
-    print HELP_STRING
+    print("\nYou must provide both a fwd fastq filename or both fwd & rev filenames.")
+    print() 
+    print(HELP_STRING)
     sys.exit(1)
     
 if SHOW_STATS:
     if statsFilename == None:
-        print "\nYou must provide an output filename"
-        print 
-        print HELP_STRING
+        print("\nYou must provide an output filename")
+        print() 
+        print(HELP_STRING)
         sys.exit(1)
 
 # do the actual work
@@ -347,29 +348,29 @@ else:
     revFiles = []
 
 if len(fwdFiles) == 0:
-    print "There are no files that fit the fwd pattern '%s'" % (fwdFilenames)
-    print
-    print HELP_STRING
+    print("There are no files that fit the fwd pattern '%s'" % (fwdFilenames))
+    print()
+    print(HELP_STRING)
     sys.exit(1)
 
 if len(revFiles) == 0:
-    print "A file pattern wasn't provided for read 2.  Assuming the run is single ended."
+    print("A file pattern wasn't provided for read 2.  Assuming the run is single ended.")
 
-print "Your files are:"
-print "Fwd files:"
+print("Your files are:")
+print("Fwd files:")
 for f in fwdFiles:
-    print "\t%s" % (f)
+    print("\t%s" % (f))
 
 if revFilenames:
-    print "Rev files:"
+    print("Rev files:")
     for f in revFiles:
-        print "\t%s" % (f)
+        print("\t%s" % (f))
     
 if revFilenames:
     if len(fwdFiles) != len(revFiles):
-        print "The fwd and rev files must have the same number of files."
-        print
-        print HELP_STRING
+        print("The fwd and rev files must have the same number of files.")
+        print()
+        print(HELP_STRING)
         sys.exit(1)
 
 if SHOW_STATS:
@@ -399,10 +400,10 @@ for i in range(len(fwdFiles)):
     ##print "Working on pair fwd='%s' and rev='%s'" % (fwdFiles[i], revFiles[i])
     recCount = 1
     fwdIt = FastqIterator(fwdFiles[i])
-    (fwdTitle, fwdSeq, fwdQual) = fwdIt.next()
+    (fwdTitle, fwdSeq, fwdQual) = next(fwdIt)
     if revFilenames:
         revIt = FastqIterator(revFiles[i])
-        (revTitle, revSeq, revQual) = revIt.next()
+        (revTitle, revSeq, revQual) = next(revIt)
         revRoot = os.path.splitext(revFiles[i])[0]
         if (revFiles[i].endswith(".gz")):
             outRev = gzip.open(revRoot + "_trimmed.fq.gz", "wb")
@@ -414,9 +415,9 @@ for i in range(len(fwdFiles)):
         outRev = None
 
     if revFilenames and fwdTitle.split()[0] != revTitle.split()[0]:
-        print "The fwd title and rev title don't match"
-        print "fwd title: '%s'" % (fwdTitle.split()[0])
-        print "rev title: '%s'" % (revTitle.split()[0])
+        print("The fwd title and rev title don't match")
+        print("fwd title: '%s'" % (fwdTitle.split()[0]))
+        print("rev title: '%s'" % (revTitle.split()[0]))
         raise Exception("fwd and rev titles don't match.  Not paired end sequence.")
 
     fwdRoot = os.path.splitext(fwdFiles[i])[0]
@@ -426,7 +427,7 @@ for i in range(len(fwdFiles)):
         outFwd = open(fwdRoot + "_trimmed.fq", "w")
     stats = getEmptyStats()
     stats["filename"] = fwdRoot
-    statsKeys = stats.keys()
+    statsKeys = list(stats.keys())
     statsKeys.sort()
 
 
@@ -436,9 +437,9 @@ for i in range(len(fwdFiles)):
         trimOneRecord(fwdTitle, fwdSeq, fwdQual, revTitle, revSeq, revQual, outFwd, outRev, stats)
 
         try:
-            (fwdTitle, fwdSeq, fwdQual) = fwdIt.next()
+            (fwdTitle, fwdSeq, fwdQual) = next(fwdIt)
             if revFilenames:
-                (revTitle, revSeq, revQual) = revIt.next()
+                (revTitle, revSeq, revQual) = next(revIt)
         except StopIteration:
             break
 
@@ -471,7 +472,7 @@ for i in range(len(fwdFiles)):
         statsOut.write("\t".join([str(x) for x in statsList]))
         statsOut.write("\n")
 
-    print "\tDone with this pair. there were %s records" % (recCount)
+    print("\tDone with this pair. there were %s records" % (recCount))
     d1 = sum(stats["bdD1base1"])
     d2 = sum(stats["bdD2base1"])
     d3 = sum(stats["bdD3base1"])
@@ -479,5 +480,5 @@ for i in range(len(fwdFiles)):
         other = stats["nrNoRE"] + stats["nrRevRE"] + stats["nrFwdRE"]
     else:
         other = stats["nrNoRE"]
-    print "\tFwd:  D0:%s  D1:%s  D2:%s  D3:%s other=%s (total=%s)" % (stats["nrD0"],
-                    d1, d2, d3, other, stats["nrD0"]+d1+d2+d3+other)
+    print("\tFwd:  D0:%s  D1:%s  D2:%s  D3:%s other=%s (total=%s)" % (stats["nrD0"],
+                    d1, d2, d3, other, stats["nrD0"]+d1+d2+d3+other))
